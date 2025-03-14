@@ -268,7 +268,7 @@ CREATE TABLE movimientos_productos (
 );
 
 
--- ****************************************** --
+-- ************ INSERTANDO 10 DATOS ************* --
 
 -- Departamentos
 INSERT INTO departamentos (id, nombre) VALUES (1, 'Ventas');
@@ -583,7 +583,7 @@ INSERT INTO movimientos_productos (id, movimiento_id, producto_id, cantidad) VAL
 INSERT INTO movimientos_productos (id, movimiento_id, producto_id, cantidad) VALUES (9, 9, 9, 18);
 INSERT INTO movimientos_productos (id, movimiento_id, producto_id, cantidad) VALUES (10, 10, 10, 22);
 
-
+-- Agregando info faltante --
 UPDATE productos SET slug = 'laptop-hp' WHERE id = 1;
 UPDATE productos SET slug = 'smartphone-samsung' WHERE id = 2;
 UPDATE productos SET slug = 'tablet-lenovo' WHERE id = 3;
@@ -594,3 +594,31 @@ UPDATE productos SET slug = 'teclado-mecanico' WHERE id = 7;
 UPDATE productos SET slug = 'mouse-logitech' WHERE id = 8;
 UPDATE productos SET slug = 'webcam-hd' WHERE id = 9;
 UPDATE productos SET slug = 'audifonos-sony' WHERE id = 10;
+
+-- ******** SECUENCIAS ******** --
+
+-- Secuencias para tablas auxiliares
+CREATE SEQUENCE seq_departamentos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_companias_envio START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_metodos_pago START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_categorias_producto START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_info_direccion START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_sedes START WITH 11 INCREMENT BY 1;
+
+-- Secuencias para tablas principales
+CREATE SEQUENCE seq_info_contacto_clientes START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_clientes START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_info_contacto_trabajadores START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_trabajadores START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_productos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_direcciones_cliente START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_imagenes_producto START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_inventario START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_ordenes START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_ordenes_productos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_ordenes_entregadas START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_pagos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_pagos_ordenes START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_devoluciones_productos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_movimientos START WITH 11 INCREMENT BY 1;
+CREATE SEQUENCE seq_movimientos_productos START WITH 11 INCREMENT BY 1;
