@@ -27,8 +27,9 @@
 <summary>📚 Documentación</summary>
 
 - [NORMALIZACION](./Normalizacion)  
-- [MODELOS]()  
-- [MANUALUSUARIO](./Documentacion/ManualUsuario.md) 
+- [MODELOS](./Models)  
+- [MANUAL USUARIO](./Documentacion/ManualUsuario.md)
+- [MANUAL TECNICO](./Documentacion/ManualTecnico.md) 
 
 </details>
 

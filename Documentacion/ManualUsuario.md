@@ -105,7 +105,7 @@ Endpoints Funcionales de la API
 ### 1 Gestión de Usuarios
 
 > 1.1 Crear Usuario (Registro) (POST)
- - Endpoint: /api/users 
+ - Endpoint: `/api/users` 
  - Descripción: Crea un nuevo usuario en la plataforma. 
  - Request (JSON): 
 ```json
@@ -128,7 +128,7 @@ Endpoints Funcionales de la API
 
 > 1.2 Iniciar Sesión (Login) (POST) 
 
-- Endpoint: /api/users/login 
+- Endpoint: `/api/users/login` 
 - Descripción: Autentica un usuario comparando la contraseña con el hash 
 almacenado. 
 - Request (JSON):
@@ -149,7 +149,7 @@ almacenado.
 
 > 1.3 Obtener Perfil de Usuario (GET)
 
-- Endpoint: /api/users/:id 
+- Endpoint: `/api/users/:id` 
 - Descripción: Obtiene la información de un usuario específico (datos básicos, sin exponer contraseña).
 - Request: 
    - Parámetro :id en la URL. 
@@ -167,7 +167,7 @@ almacenado.
 
 > 1.4 Actualizar Usuario (PUT)
 
-- Endpoint: /api/users/:id 
+- Endpoint: `/api/users/:id` 
 - Descripción: Modifica los datos de un usuario (excepto la contraseña, que podría ser otro endpoint separado). 
 - Request (JSON) (campos a actualizar):
 ```json
@@ -187,7 +187,7 @@ Response (JSON):
 
 > 1.5 Eliminar Usuario (DELETE)
 
-- Endpoint: /api/users/:id 
+- Endpoint: `/api/users/:id` 
 - Descripción: Elimina un usuario o lo marca como inactivo. 
 - Response (JSON): 
 ```json
