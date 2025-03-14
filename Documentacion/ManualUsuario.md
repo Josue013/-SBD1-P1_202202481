@@ -3,7 +3,7 @@
 ---
 ---
 
-<h1 align="center">MANUAL TECNICO</h1>
+<h1 align="center">MANUAL USUARIO</h1>
   <p align="center"><strong>NOMBRE:</strong> JOSUÉ NABÍ HURTARTE PINTO</p>
   <p align="center"><strong>CARNET:</strong> 202202481</p>
   <p align="center">LAB. REDES DE COMPUTADORAS 1</p>
