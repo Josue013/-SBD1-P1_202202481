@@ -19,5 +19,5 @@
 | --- | -------------------------------------------------- | ------------ |
 | 1   | `Analisis`                                         | [IR](#intro) |
 | 2   | `Tablas` | [IR](#req)   |
-| 3   | `Correr proyecto`                                  | [IR](#run)   |
+| 3   | `Descripcion de las relaciones`                                  | [IR](#run)   |
 | 4   | `Consumir api`                                     | [IR](#api)   |

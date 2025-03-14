@@ -1,8 +1,7 @@
 {
-  "documento_identidad": "3128365900101",
-  "nombres": "Josue",
-  "apellidos": "Hurtarte",
-  "password": "tu_contraseña",
-  "email": "josue013@email.com",
-  "telefono": "55511111"
+  "name": "Laptop X",
+  "description": "Laptop de alto rendimiento",
+  "price": 750.00,
+  "stock": 10,
+  "category": "Electrónicos"
 }
