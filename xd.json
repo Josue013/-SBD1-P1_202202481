@@ -1,7 +1,17 @@
 {
-  "name": "Laptop X",
-  "description": "Laptop de alto rendimiento",
-  "price": 750.00,
-  "stock": 10,
-  "category": "Electrónicos"
+  "clienteId": 1,
+  "sedeId": 1,
+  "items": [
+    {
+      "productoId": 1,
+      "cantidad": 2,
+      "precio": 5000.00
+    },
+    {
+      "productoId": 2,
+      "cantidad": 1,
+      "precio": 2500.00
+    }
+  ]
 }
+

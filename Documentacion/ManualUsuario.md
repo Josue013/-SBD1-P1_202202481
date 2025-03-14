@@ -195,4 +195,246 @@ Response (JSON):
   "status": "success", 
   "message": "Se inactivó el usuario correctamente"
 } 
+```
 
+### 2 Gestión de Productos
+
+> 2.1 Listar Productos (GET)
+
+- Endpoint: `/api/products`
+- Descripción: Retorna la lista de productos activos con su stock.
+- Response (JSON):
+```json
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Laptop HP",
+      "price": 5000.00,
+      "stock": 10
+    },
+    {
+      "id": 2,
+      "name": "Smartphone Samsung",
+      "price": 2500.00,
+      "stock": 20
+    }
+  ]
+}
+```
+
+> 2.2 Detalle de Producto (GET)
+
+- Endpoint: `/api/products/:id`
+- Descripción: Obtiene el detalle completo de un producto específico.
+- Request: Parámetro :id en la URL
+- Response (JSON):
+```json
+{
+  "id": 1,
+  "name": "Laptop HP",
+  "description": "Laptop de alto rendimiento",
+  "price": 5000.00,
+  "category": "Electrónicos",
+  "stock": 10
+}
+```
+
+> 2.3 Crear Producto (POST)
+
+- Endpoint: `/api/products`
+- Descripción: Crea un nuevo producto en el sistema.
+- Request (JSON):
+```json
+{
+  "name": "Laptop X",
+  "description": "Laptop de alto rendimiento",
+  "price": 750.00,
+  "category": "Electrónicos"
+}
+```
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "message": "Product created successfully",
+  "productId": 1
+}
+```
+
+> 2.4 Actualizar Producto (PUT)
+
+- Endpoint: `/api/products/:id`
+- Descripción: Actualiza el precio de un producto existente.
+- Request (JSON):
+```json
+{
+  "price": 700.00,
+  "stock": 15
+}
+```
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "message": "Product updated successfully"
+}
+```
+
+> 2.5 Eliminar Producto (DELETE)
+
+- Endpoint: `/api/products/:id`
+- Descripción: Marca un producto como inactivo.
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "message": "Product deleted successfully"
+}
+```
+
+
+### 3 Gestión de Órdenes
+
+> 3.1 Crear Orden (POST)
+
+- Endpoint: `/api/orders`
+- Descripción: Crea una nueva orden de compra.
+- Request (JSON):
+```json
+{
+  "clienteId": 1,
+  "sedeId": 1,
+  "items": [
+    {
+      "productoId": 1,
+      "cantidad": 2,
+      "precio": 5000.00
+    },
+    {
+      "productoId": 2,
+      "cantidad": 1,
+      "precio": 2500.00
+    }
+  ]
+}
+```
+
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "data": {
+    "orderId": 1
+  }
+}
+```
+
+> 3.2 Listar Órdenes (GET)
+
+- Endpoint: `/api/orders`
+- Descripción: Obtiene la lista de órdenes.
+- Query Parameters: `clienteId` (opcional)
+- Response (JSON):
+```json
+{
+  "orders": [
+    {
+      "orderId": 11,
+      "userId": 1,
+      "totalAmount": 12500,
+      "createdAt": "2025-03-14T20:39:37.219Z"
+    },
+    {
+      "orderId": 9,
+      "userId": 9,
+      "totalAmount": 600,
+      "createdAt": "2025-03-13T10:30:49.887Z"
+    }
+  ]
+}
+```
+
+> 3.3 Detalle de Orden (GET)
+
+- Endpoint: `/api/orders/:id`
+- Descripción: Obtiene el detalle completo de una orden.
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 2,
+    "clienteId": 2,
+    "sedeId": 1,
+    "cliente": "María García",
+    "sede": "Sede Central Guatemala",
+    "fecha": "2025-03-13T10:30:49.587Z",
+    "productos": [
+      {
+        "productoId": 3,
+        "nombre": "Tablet Lenovo",
+        "cantidad": 2,
+        "precio": 1800,
+        "subtotal": 3600
+      }
+    ],
+    "total": 3600
+  }
+}
+```
+
+### 4 Gestión de Pagos 
+
+> 4.1 Registrar Pago (POST)
+
+- Endpoint: `/api/payments`
+- Descripción: Registra un pago para una orden.
+- Request (JSON):
+```json
+{
+  "ordenId": 1,
+  "metodoPagoId": 1
+}
+```
+- Response (JSON):
+```json
+{
+  "status": "success",
+  "data": {
+    "paymentId": 1
+  }
+}
+```
+> 4.2 Listar Pagos (GET)
+
+- Endpoint: `/api/payments`
+- Descripción: Obtiene la lista de pagos realizados.
+- Query Parameters: `clienteId` (opcional)
+- Response (JSON):
+```json
+{
+  "payments": [
+    {
+      "id": 1,
+      "clienteId": 1,
+      "metodoPagoId": 1,
+      "cliente": "Juan Pérez",
+      "metodoPago": "CREDIT VISA",
+      "ordenId": 1,
+      "estado": "PAID",
+      "fecha": "2025-03-13T10:30:50.643Z"
+    },
+    {
+      "id": 1,
+      "clienteId": 1,
+      "metodoPagoId": 1,
+      "cliente": "Juan Pérez",
+      "metodoPago": "CREDIT VISA",
+      "ordenId": 1,
+      "estado": "PAID",
+      "fecha": "2025-03-13T10:30:50.643Z"
+    }
+  ]
+}
+```

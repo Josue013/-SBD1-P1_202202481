@@ -1,4 +1,5 @@
 const { getConnection } = require('../config/database');
+const oracledb = require('oracledb');
 
 class OrderModel {
     static async createOrder(clienteId, items, sedeId) {
@@ -6,12 +7,16 @@ class OrderModel {
         try {
             connection = await getConnection();
             
-            // Crear orden
+            // Crear orden (sin estado_id)
             const orderResult = await connection.execute(
-                `INSERT INTO ordenes (cliente_id, sede_id) 
-                 VALUES (:1, :2)
+                `INSERT INTO ordenes (id, cliente_id, sede_id) 
+                 VALUES (seq_ordenes.NEXTVAL, :1, :2)
                  RETURNING id INTO :3`,
-                [clienteId, sedeId, { type: connection.NUMBER, dir: connection.BIND_OUT }]
+                [
+                    clienteId, 
+                    sedeId, 
+                    { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+                ]
             );
             
             const orderId = orderResult.outBinds[0][0];
@@ -19,8 +24,8 @@ class OrderModel {
             // Insertar productos de la orden
             for (const item of items) {
                 await connection.execute(
-                    `INSERT INTO ordenes_productos (orden_id, producto_id, cantidad, precio)
-                     VALUES (:1, :2, :3, :4)`,
+                    `INSERT INTO ordenes_productos (id, orden_id, producto_id, cantidad, precio)
+                     VALUES (seq_ordenes_productos.NEXTVAL, :1, :2, :3, :4)`,
                     [orderId, item.productoId, item.cantidad, item.precio]
                 );
             }
@@ -45,36 +50,31 @@ class OrderModel {
             connection = await getConnection();
             
             let query = `
-                SELECT o.id, o.cliente_id, o.sede_id, 
-                       c.nombres || ' ' || c.apellidos as cliente,
-                       s.nombre as sede,
-                       o.created_at,
-                       SUM(op.cantidad * op.precio) as total
+                SELECT o.id as orderId,
+                       o.cliente_id as userId,
+                       o.created_at as createdAt,
+                       SUM(op.cantidad * op.precio) as totalAmount
                 FROM ordenes o
-                JOIN clientes c ON o.cliente_id = c.id
-                JOIN sedes s ON o.sede_id = s.id
                 JOIN ordenes_productos op ON o.id = op.orden_id
+                ${clienteId ? 'WHERE o.cliente_id = :1' : ''}
+                GROUP BY o.id, o.cliente_id, o.created_at
+                ORDER BY o.created_at DESC
             `;
             
-            const params = [];
-            if (clienteId) {
-                query += ' WHERE o.cliente_id = :1';
-                params.push(clienteId);
-            }
-            
-            query += ' GROUP BY o.id, o.cliente_id, o.sede_id, c.nombres, c.apellidos, s.nombre, o.created_at';
-            
-            const result = await connection.execute(query, params);
-            
-            return result.rows.map(row => ({
-                id: row[0],
-                clienteId: row[1],
-                sedeId: row[2],
-                cliente: row[3],
-                sede: row[4],
-                fecha: row[5],
-                total: row[6]
-            }));
+            const result = await connection.execute(
+                query,
+                clienteId ? [clienteId] : [],
+                { outFormat: oracledb.OUT_FORMAT_OBJECT }
+            );
+    
+            return {
+                orders: result.rows.map(row => ({
+                    orderId: row.ORDERID,
+                    userId: row.USERID,
+                    totalAmount: row.TOTALAMOUNT,
+                    createdAt: row.CREATEDAT
+                }))
+            };
         } finally {
             if (connection) {
                 await connection.close();

@@ -161,22 +161,37 @@ class ProductModel {
         try {
             connection = await getConnection();
             
+            // Verificar si el producto existe y está activo
+            const productExists = await connection.execute(
+                `SELECT 1 FROM productos WHERE id = :1 AND activo = 'T'`,
+                [id]
+            );
+    
+            if (productExists.rows.length === 0) {
+                throw new Error('Product not found');
+            }
+    
+            // Actualizar precio si se proporciona
             if (productData.price) {
                 await connection.execute(
                     `UPDATE productos 
                      SET precio = :1
-                     WHERE id = :2 AND activo = 'T'`,
+                     WHERE id = :2`,
                     [productData.price, id]
                 );
             }
     
+            // Actualizar stock si se proporciona
             if (productData.stock !== undefined) {
+                // Verificar si ya existe un registro en inventario
                 const inventoryResult = await connection.execute(
-                    `SELECT id FROM inventario WHERE producto_id = :1 AND sede_id = 1`,
+                    `SELECT id FROM inventario 
+                     WHERE producto_id = :1 AND sede_id = 1`,
                     [id]
                 );
     
                 if (inventoryResult.rows.length > 0) {
+                    // Actualizar inventario existente
                     await connection.execute(
                         `UPDATE inventario 
                          SET cantidad = :1
@@ -184,6 +199,7 @@ class ProductModel {
                         [productData.stock, id]
                     );
                 } else {
+                    // Crear nuevo registro de inventario
                     await connection.execute(
                         `INSERT INTO inventario (id, producto_id, sede_id, cantidad)
                          VALUES (seq_inventario.NEXTVAL, :1, 1, :2)`,

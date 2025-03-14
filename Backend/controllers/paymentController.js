@@ -26,8 +26,7 @@ class PaymentController {
             const payments = await PaymentModel.getPayments(clienteId);
             
             res.json({
-                status: 'success',
-                data: payments
+                payments: payments
             });
         } catch (error) {
             res.status(500).json({

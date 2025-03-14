@@ -1,4 +1,5 @@
 const { getConnection } = require('../config/database');
+const oracledb = require('oracledb');
 
 class PaymentModel {
     static async createPayment(ordenId, metodoPagoId) {
@@ -24,19 +25,23 @@ class PaymentModel {
             
             // Crear pago
             const paymentResult = await connection.execute(
-                `INSERT INTO pagos (cliente_id, metodo_pago_id)
-                 VALUES (:1, :2)
+                `INSERT INTO pagos (id, cliente_id, metodo_pago_id)
+                 VALUES (seq_pagos.NEXTVAL, :1, :2)
                  RETURNING id INTO :3`,
-                [clienteId, metodoPagoId, { type: connection.NUMBER, dir: connection.BIND_OUT }]
+                [
+                    clienteId, 
+                    metodoPagoId, 
+                    { type: oracledb.NUMBER, dir: oracledb.BIND_OUT }
+                ]
             );
             
             const pagoId = paymentResult.outBinds[0][0];
             
             // Crear relación pago-orden
             await connection.execute(
-                `INSERT INTO pagos_ordenes (orden_id, metodo_pago_id, estado_id)
-                 VALUES (:1, :2, :3)`,
-                [ordenId, metodoPagoId, 1] // 1 = estado inicial del pago
+                `INSERT INTO pagos_ordenes (id, orden_id, metodo_pago_id, estado_id)
+                 VALUES (seq_pagos_ordenes.NEXTVAL, :1, :2, :3)`,
+                [ordenId, metodoPagoId, 1]  // 1 = estado inicial del pago
             );
             
             await connection.commit();

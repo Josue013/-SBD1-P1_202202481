@@ -23,12 +23,9 @@ class OrderController {
     static async getOrders(req, res) {
         try {
             const { clienteId } = req.query;
-            const orders = await OrderModel.getOrders(clienteId);
+            const result = await OrderModel.getOrders(clienteId);
             
-            res.json({
-                status: 'success',
-                data: orders
-            });
+            res.json(result);
         } catch (error) {
             res.status(500).json({
                 status: 'error',
